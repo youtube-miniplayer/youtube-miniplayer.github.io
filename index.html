@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 720px;
+        height: 200vh;
+      }
+      .viewport-large {
+          position: relative;
+          display: block;
+          width: 100%;
+          padding: 0;
+          overflow: hidden;
+      }
+      .viewport-large::before {
+          display: block;
+          content: "";
+          padding-top: 56.25%;
+      }
+      .player-responsive {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .viewport-mini {
+          position: fixed;
+          bottom: 8px;
+          right: 35px;
+          width: 320px; /* must be >=200px */
+      }
+      .viewport-mini::before {
+          display: block;
+          content: "";
+          padding-top: 56.25%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="containerOuter" class="viewport-large">
+        <div id="containerInner">
+          <!-- YouTube Embed Code -->
+           <iframe class="player-responsive"
+             src="https://www.youtube.com/embed/QQ32MyZmXeQ"
+             frameborder="0" allow="accelerometer; autoplay;
+             encrypted-media; gyroscope; picture-in-picture"
+             allowfullscreen></iframe>
+         </div>
+       </div>
+    </div>
+    <script>
+      function getPlayerViewportBottom() {
+        var scrollTop = document.documentElement.scrollTop;
+        var containerOuter = document.getElementById('containerOuter').getBoundingClientRect();
+        return containerOuter.bottom + scrollTop;
+      }
+
+      function playerIsInView() {
+        var scrollTop = document.documentElement.scrollTop;
+        var scrollLimit = getPlayerViewportBottom();
+
+        if (scrollTop >= scrollLimit) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+
+      function updatePlayer() {
+      var containerInner = document.getElementById('containerInner');
+
+
+      if( playerIsInView() ) {
+        containerInner.classList.remove('viewport-mini');
+      } else {
+        containerInner.classList.add('viewport-mini');
+        }
+      }
+
+      window.addEventListener('scroll', updatePlayer);
+
+    </script>
+  </body>
+</html>
